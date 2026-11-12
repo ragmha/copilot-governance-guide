@@ -1,0 +1,54 @@
+{
+  "access-assignment": {
+    "title": "Two paths to a seat",
+    "description": "An enterprise chooses an available assignment path: directly assign eligible enterprise users or enable organizations to assign seats. Check the plan, policies and owner for the chosen path."
+  },
+  "access-lifecycle": {
+    "title": "Maintain the seat lifecycle",
+    "description": "Assign an eligible person, help them onboard, review membership and activity, investigate exceptions, and update the assignment when authorized. Other assignment paths may still apply."
+  },
+  "policy-scope": {
+    "title": "Find the policy source",
+    "description": "Start with the seat source. Organization-assigned and enterprise-assigned users can follow different defaults. Check effective policy and feature-specific conflict rules."
+  },
+  "model-feature-baseline": {
+    "title": "Review availability before rollout",
+    "description": "Set separate defaults for features and models, decide whether to enable, disable or delegate each capability, then verify the effective experience and schedule review."
+  },
+  "billing-ownership": {
+    "title": "One service, distinct financial questions",
+    "description": "A Copilot rollout raises separate seat and metered usage questions. Identify the financial owner for both, and distinguish spending authorization from a forecast."
+  },
+  "consumption-controls": {
+    "title": "Find the actual limit",
+    "description": "Identify the applicable user-level budget, check included-usage and paid-usage conditions, then inspect applicable metered spending controls. A different budget cannot override a user-level hard stop."
+  },
+  "budget-scenario": {
+    "title": "A blocked user with budget headroom",
+    "description": "In this hypothetical scenario, the user-level budget is exhausted even though the cost-center metered budget has headroom. The user-level hard stop still blocks credit-consuming work."
+  },
+  "agent-operating-scope": {
+    "title": "Bound an agent rollout",
+    "description": "Choose a permitted audience and environment, review repository access and controls, then require appropriate review of the proposed changes."
+  },
+  "agent-tools-network": {
+    "title": "Review separate execution paths",
+    "description": "Agent work can use Bash-started processes and MCP servers. The firewall directly covers the former, not MCP processes. Review permissions and protections for each path."
+  },
+  "instructions-context": {
+    "title": "Improve guidance through review",
+    "description": "Select the audience and supported instruction scope, write task-relevant guidance, then evaluate outputs and update the guidance. Instructions are not permissions."
+  },
+  "sensitive-content": {
+    "title": "Use complementary protections",
+    "description": "Sensitive content needs both access restrictions and supported content exclusions. Review connected tools and remaining limitations; exclusions are not a security boundary."
+  },
+  "adoption-measurement": {
+    "title": "Interpret adoption in context",
+    "description": "Define a question and denominator, select a complete reporting period and supported metric, then interpret trends alongside feedback and coverage limitations."
+  },
+  "agent-activity": {
+    "title": "Choose evidence with care",
+    "description": "An agent-activity question can use audit evidence or client telemetry, each with its own coverage. Review access, privacy and retention before collection."
+  }
+}

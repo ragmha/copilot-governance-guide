@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 704 504" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="agent-activity-light-title agent-activity-light-desc" id="agent-activity-light-root">
+        <title id="agent-activity-light-title">Choose evidence with care</title>
+        <desc id="agent-activity-light-desc">An agent-activity question can use audit evidence or client telemetry, each with its own coverage. Review access, privacy and retention before collection.</desc>
+        <defs>
+      <style>#agent-activity-light-root { font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",Helvetica,Arial,sans-serif; color: #1f2328; }
+      #agent-activity-light-root .diagram-container { width: 100%; overflow-x: auto; }
+      @media print {
+#agent-activity-light-root .diagram-container { overflow-x: visible; }
+}</style><marker id="agent-activity-light-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#59636e"/></marker></defs>
+        <rect x="0" y="0" width="704" height="504" fill="#f3f5f7"/>
+        <path d="M 300,120 V 132 Q 300,140 292,140 H 216 Q 208,140 208,148 V 168" fill="none" stroke="#59636e" stroke-width="1.5" marker-end="url(#agent-activity-light-arrow)"/>
+        <path d="M 404,120 V 132 Q 404,140 412,140 H 488 Q 496,140 496,148 V 168" fill="none" stroke="#59636e" stroke-width="1.5" marker-end="url(#agent-activity-light-arrow)"/>
+        <path d="M 208,248 V 260 Q 208,268 216,268 H 292 Q 300,268 300,276 V 296" fill="none" stroke="#59636e" stroke-width="1.5" marker-end="url(#agent-activity-light-arrow)"/>
+        <path d="M 496,248 V 260 Q 496,268 488,268 H 412 Q 404,268 404,276 V 296" fill="none" stroke="#59636e" stroke-width="1.5" marker-end="url(#agent-activity-light-arrow)"/>
+        <g>
+      <rect x="192" y="40" width="320" height="80" rx="6" fill="#ffffff" stroke="#59636e" stroke-width="1.5"/>
+      <text x="208" y="70" fill="#1f2328" font-family="-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,&quot;Noto Sans&quot;,Helvetica,Arial,sans-serif" font-size="12" font-weight="600">Agent activity</text>
+      <text x="208" y="94" fill="#59636e" font-family="-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,&quot;Noto Sans&quot;,Helvetica,Arial,sans-serif" font-size="12">Choose a specific question</text>
+    </g>
+        <g>
+      <rect x="88" y="168" width="240" height="80" rx="6" fill="#eaf6ed" stroke="#1a7f37" stroke-width="1.5"/>
+      <text x="104" y="198" fill="#1f2328" font-family="-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,&quot;Noto Sans&quot;,Helvetica,Arial,sans-serif" font-size="12" font-weight="600">Session and audit evidence</text>
+      <text x="104" y="222" fill="#59636e" font-family="-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,&quot;Noto Sans&quot;,Helvetica,Arial,sans-serif" font-size="12">Check availability and coverage</text>
+    </g>
+        <g>
+      <rect x="376" y="168" width="240" height="80" rx="6" fill="#ffffff" stroke="#59636e" stroke-width="1.5"/>
+      <text x="392" y="198" fill="#1f2328" font-family="-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,&quot;Noto Sans&quot;,Helvetica,Arial,sans-serif" font-size="12" font-weight="600">Client telemetry</text>
+      <text x="392" y="222" fill="#59636e" font-family="-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,&quot;Noto Sans&quot;,Helvetica,Arial,sans-serif" font-size="12">Choose capture classes</text>
+    </g>
+        <g>
+      <rect x="192" y="296" width="320" height="80" rx="6" fill="#ffffff" stroke="#59636e" stroke-width="1.5"/>
+      <text x="208" y="326" fill="#1f2328" font-family="-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,&quot;Noto Sans&quot;,Helvetica,Arial,sans-serif" font-size="12" font-weight="600">Review collection</text>
+      <text x="208" y="350" fill="#59636e" font-family="-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,&quot;Noto Sans&quot;,Helvetica,Arial,sans-serif" font-size="12">Coverage, privacy, access and retention</text>
+    </g>
+        <text x="40" y="416" fill="#59636e" font-family="-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,&quot;Noto Sans&quot;,Helvetica,Arial,sans-serif" font-size="12">Identity capture still includes identifying data.</text>
+        <line x1="40" y1="444" x2="664" y2="444" stroke="#d1d9e0" stroke-width="1"/>
+        <text x="40" y="472" fill="#59636e" font-family="-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,&quot;Noto Sans&quot;,Helvetica,Arial,sans-serif" font-size="9">Box: topic or action    ·    Arrow: relationship</text>
+        <text x="40" y="488" fill="#59636e" font-family="-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,&quot;Noto Sans&quot;,Helvetica,Arial,sans-serif" font-size="9">Green box: lesson focus, not approval or a safety rating</text>
+      </svg>

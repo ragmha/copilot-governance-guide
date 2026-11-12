@@ -1,0 +1,66 @@
+---
+import { quizzes, quizReviewLessons } from '../quizzes';
+import { coursePath } from '../course';
+
+const { part } = Astro.props as { part: number };
+const questions = quizzes[part - 1];
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+<section class="part-quiz prose" aria-labelledby="part-quiz-title">
+  <h2 id="part-quiz-title">Part {part} quiz</h2>
+  <p>Choose one answer for each question, then check your score. A score of 100% unlocks the next part; retry as often as needed. Progress is saved in this browser. This is a learning aid, not a tamper-proof assessment or certification.</p>
+  <noscript><p>JavaScript is required to score the quiz and record progress in this browser.</p></noscript>
+  <form data-quiz data-part={part} novalidate>
+    {questions.map((question, index) => (
+      <div class="quiz-card">
+        <fieldset data-answer={question.answer} data-explanation={question.explanation} aria-describedby={`feedback-${index}`}>
+          <legend>{index + 1}. {question.prompt}</legend>
+          {question.options.map((option, optionIndex) => (
+            <label><input type="radio" name={`question-${index}`} value={optionIndex} /> {option}</label>
+          ))}
+          <p id={`feedback-${index}`} class="quiz-feedback" hidden><strong></strong> <span></span> <a href={`${base}/${coursePath(quizReviewLessons[part - 1][index])}/`}>Review the lesson</a></p>
+        </fieldset>
+      </div>
+    ))}
+    <button type="submit">Check score</button>
+    <button type="button" data-retry hidden>Retry quiz</button>
+    <p class="quiz-status" role="status" aria-live="polite"></p>
+  </form>
+</section>
+<script>
+  document.querySelectorAll<HTMLFormElement>('[data-quiz]').forEach(form => {
+    const status = form.querySelector<HTMLElement>('.quiz-status')!;
+    const retry = form.querySelector<HTMLButtonElement>('[data-retry]')!;
+    const fields = [...form.querySelectorAll<HTMLFieldSetElement>('fieldset')];
+    form.addEventListener('submit', event => {
+      event.preventDefault();
+      const missing = fields.find(field => !field.querySelector('input:checked'));
+      if (missing) {
+        status.textContent = 'Answer every question before checking your score.';
+        missing.querySelector<HTMLInputElement>('input')!.focus();
+        return;
+      }
+      let score = 0;
+      fields.forEach(field => {
+        const selected = field.querySelector<HTMLInputElement>('input:checked')!;
+        const correct = Number(selected.value) === Number(field.dataset.answer);
+        if (correct) score++;
+        const feedback = field.querySelector<HTMLElement>('.quiz-feedback')!;
+        feedback.dataset.result = correct ? 'correct' : 'incorrect';
+        feedback.querySelector('strong')!.textContent = correct ? 'Correct.' : 'Incorrect.';
+        feedback.querySelector('span')!.textContent = correct ? field.dataset.explanation! : '';
+        feedback.querySelector('a')!.hidden = correct;
+        feedback.hidden = false;
+      });
+      retry.hidden = false;
+      form.dispatchEvent(new CustomEvent('quiz-scored', { bubbles: true, detail: { part: Number(form.dataset.part), score, total: fields.length } }));
+    });
+    retry.addEventListener('click', () => {
+      form.reset();
+      fields.forEach(field => { field.querySelector<HTMLElement>('.quiz-feedback')!.hidden = true; });
+      retry.hidden = true;
+      status.textContent = 'Quiz reset. Choose your answers and check your score again.';
+      fields[0].querySelector<HTMLInputElement>('input')!.focus();
+    });
+  });
+</script>

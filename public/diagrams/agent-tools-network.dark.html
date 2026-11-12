@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Review separate execution paths</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",Helvetica,Arial,sans-serif; background: #07090d; color: #f0f6fc; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 3rem 2rem; }
+    .frame { max-width: 704px; min-width: 0; width: 100%; }
+    .diagram-container { width: 100%; overflow-x: auto; }
+    .eyebrow { font-family: ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace; font-size: .66rem; color: #9198a1; margin-bottom: .5rem; }
+    h1 { font-size: 1.75rem; line-height: 1.15; color: #f0f6fc; margin-bottom: 1.5rem; }
+    svg { width: 100%; min-width: 704px; display: block; }
+    @media print { .diagram-container { overflow-x: visible; } svg { min-width: 0; } }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">Governance guide · branch</p>
+    <h1>Review separate execution paths</h1>
+    <div class="diagram-container" tabindex="0" role="region" aria-label="Review separate execution paths. Scroll horizontally to explore.">
+      <svg viewBox="0 0 704 568" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="agent-tools-network-dark-title agent-tools-network-dark-desc">
+        <title id="agent-tools-network-dark-title">Review separate execution paths</title>
+        <desc id="agent-tools-network-dark-desc">Agent work can use Bash-started processes and MCP servers. The firewall directly covers the former, not MCP processes. Review permissions and protections for each path.</desc>
+        <defs><marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#9198a1"/></marker></defs>
+        <rect x="0" y="0" width="704" height="568" fill="#07090d"/>
+        <rect x="72" y="176" width="272" height="120" rx="8" fill="none" stroke="#9198a1" stroke-width="1" stroke-dasharray="4,3"/>
+        <rect x="84" y="168" width="120" height="16" fill="#07090d"/>
+        <text x="92" y="180" fill="#9198a1" font-family="ui-monospace,SFMono-Regular,&quot;SF Mono&quot;,Menlo,Consolas,&quot;Liberation Mono&quot;,monospace" font-size="8">FIREWALL SCOPE</text>
+        <path d="M 300,120 V 132 Q 300,140 292,140 H 216 Q 208,140 208,148 V 200" fill="none" stroke="#9198a1" stroke-width="1.5" marker-end="url(#arrow)"/>
+        <path d="M 404,120 V 132 Q 404,140 412,140 H 488 Q 496,140 496,148 V 200" fill="none" stroke="#9198a1" stroke-width="1.5" marker-end="url(#arrow)"/>
+        <path d="M 208,280 V 324 Q 208,332 216,332 H 292 Q 300,332 300,340 V 360" fill="none" stroke="#9198a1" stroke-width="1.5" marker-end="url(#arrow)"/>
+        <path d="M 496,280 V 324 Q 496,332 488,332 H 412 Q 404,332 404,340 V 360" fill="none" stroke="#9198a1" stroke-width="1.5" marker-end="url(#arrow)"/>
+        <g>
+      <rect x="192" y="40" width="320" height="80" rx="6" fill="#0d1117" stroke="#9198a1" stroke-width="1.5"/>
+      <text x="208" y="70" fill="#f0f6fc" font-family="-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,&quot;Noto Sans&quot;,Helvetica,Arial,sans-serif" font-size="12" font-weight="600">Cloud execution</text>
+      <text x="208" y="94" fill="#9198a1" font-family="-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,&quot;Noto Sans&quot;,Helvetica,Arial,sans-serif" font-size="12">Agent and code review paths</text>
+    </g>
+        <g>
+      <rect x="88" y="200" width="240" height="80" rx="6" fill="#102219" stroke="#3fb950" stroke-width="1.5"/>
+      <text x="104" y="230" fill="#f0f6fc" font-family="-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,&quot;Noto Sans&quot;,Helvetica,Arial,sans-serif" font-size="12" font-weight="600">Bash-started processes</text>
+      <text x="104" y="254" fill="#9198a1" font-family="-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,&quot;Noto Sans&quot;,Helvetica,Arial,sans-serif" font-size="12">Firewall applies to this path</text>
+    </g>
+        <g>
+      <rect x="376" y="200" width="240" height="80" rx="6" fill="#0d1117" stroke="#9198a1" stroke-width="1.5"/>
+      <text x="392" y="230" fill="#f0f6fc" font-family="-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,&quot;Noto Sans&quot;,Helvetica,Arial,sans-serif" font-size="12" font-weight="600">MCP server processes</text>
+      <text x="392" y="254" fill="#9198a1" font-family="-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,&quot;Noto Sans&quot;,Helvetica,Arial,sans-serif" font-size="12">Not directly covered</text>
+    </g>
+        <g>
+      <rect x="192" y="360" width="320" height="80" rx="6" fill="#0d1117" stroke="#9198a1" stroke-width="1.5"/>
+      <text x="208" y="390" fill="#f0f6fc" font-family="-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,&quot;Noto Sans&quot;,Helvetica,Arial,sans-serif" font-size="12" font-weight="600">Review separately</text>
+      <text x="208" y="414" fill="#9198a1" font-family="-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,&quot;Noto Sans&quot;,Helvetica,Arial,sans-serif" font-size="12">Permissions, controls and residual risk</text>
+    </g>
+        <text x="40" y="480" fill="#9198a1" font-family="-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,&quot;Noto Sans&quot;,Helvetica,Arial,sans-serif" font-size="12">The firewall is not complete exfiltration protection.</text>
+        <line x1="40" y1="508" x2="664" y2="508" stroke="#3d444d" stroke-width="1"/>
+        <text x="40" y="536" fill="#9198a1" font-family="-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,&quot;Noto Sans&quot;,Helvetica,Arial,sans-serif" font-size="9">Box: topic or action    ·    Arrow: relationship    ·    Dashed boundary: firewall scope</text>
+        <text x="40" y="552" fill="#9198a1" font-family="-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,&quot;Noto Sans&quot;,Helvetica,Arial,sans-serif" font-size="9">Green box: lesson focus, not approval or a safety rating</text>
+      </svg>
+    </div>
+  </div>
+</body>
+</html>
