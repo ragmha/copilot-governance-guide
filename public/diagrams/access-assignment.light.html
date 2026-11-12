@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Two paths to a seat</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",Helvetica,Arial,sans-serif; background: #f3f5f7; color: #1f2328; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 3rem 2rem; }
+    .frame { max-width: 704px; min-width: 0; width: 100%; }
+    .diagram-container { width: 100%; overflow-x: auto; }
+    .eyebrow { font-family: ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace; font-size: .66rem; color: #59636e; margin-bottom: .5rem; }
+    h1 { font-size: 1.75rem; line-height: 1.15; color: #1f2328; margin-bottom: 1.5rem; }
+    svg { width: 100%; min-width: 704px; display: block; }
+    @media print { .diagram-container { overflow-x: visible; } svg { min-width: 0; } }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">Governance guide · branch</p>
+    <h1>Two paths to a seat</h1>
+    <div class="diagram-container" tabindex="0" role="region" aria-label="Two paths to a seat. Scroll horizontally to explore.">
+      <svg viewBox="0 0 704 504" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="access-assignment-light-title access-assignment-light-desc">
+        <title id="access-assignment-light-title">Two paths to a seat</title>
+        <desc id="access-assignment-light-desc">An enterprise chooses an available assignment path: directly assign eligible enterprise users or enable organizations to assign seats. Check the plan, policies and owner for the chosen path.</desc>
+        <defs><marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#59636e"/></marker></defs>
+        <rect x="0" y="0" width="704" height="504" fill="#f3f5f7"/>
+        <path d="M 300,120 V 132 Q 300,140 292,140 H 216 Q 208,140 208,148 V 168" fill="none" stroke="#59636e" stroke-width="1.5" marker-end="url(#arrow)"/>
+        <path d="M 404,120 V 132 Q 404,140 412,140 H 488 Q 496,140 496,148 V 168" fill="none" stroke="#59636e" stroke-width="1.5" marker-end="url(#arrow)"/>
+        <path d="M 208,248 V 260 Q 208,268 216,268 H 292 Q 300,268 300,276 V 296" fill="none" stroke="#59636e" stroke-width="1.5" marker-end="url(#arrow)"/>
+        <path d="M 496,248 V 260 Q 496,268 488,268 H 412 Q 404,268 404,276 V 296" fill="none" stroke="#59636e" stroke-width="1.5" marker-end="url(#arrow)"/>
+        <g>
+      <rect x="192" y="40" width="320" height="80" rx="6" fill="#ffffff" stroke="#59636e" stroke-width="1.5"/>
+      <text x="208" y="70" fill="#1f2328" font-family="-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,&quot;Noto Sans&quot;,Helvetica,Arial,sans-serif" font-size="12" font-weight="600">Enterprise chooses</text>
+      <text x="208" y="94" fill="#59636e" font-family="-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,&quot;Noto Sans&quot;,Helvetica,Arial,sans-serif" font-size="12">Available assignment path</text>
+    </g>
+        <g>
+      <rect x="88" y="168" width="240" height="80" rx="6" fill="#eaf6ed" stroke="#1a7f37" stroke-width="1.5"/>
+      <text x="104" y="198" fill="#1f2328" font-family="-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,&quot;Noto Sans&quot;,Helvetica,Arial,sans-serif" font-size="12" font-weight="600">Enterprise assignment</text>
+      <text x="104" y="222" fill="#59636e" font-family="-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,&quot;Noto Sans&quot;,Helvetica,Arial,sans-serif" font-size="12">Eligible users or teams</text>
+    </g>
+        <g>
+      <rect x="376" y="168" width="240" height="80" rx="6" fill="#ffffff" stroke="#59636e" stroke-width="1.5"/>
+      <text x="392" y="198" fill="#1f2328" font-family="-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,&quot;Noto Sans&quot;,Helvetica,Arial,sans-serif" font-size="12" font-weight="600">Organization assignment</text>
+      <text x="392" y="222" fill="#59636e" font-family="-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,&quot;Noto Sans&quot;,Helvetica,Arial,sans-serif" font-size="12">Organization assigns seats</text>
+    </g>
+        <g>
+      <rect x="192" y="296" width="320" height="80" rx="6" fill="#ffffff" stroke="#59636e" stroke-width="1.5"/>
+      <text x="208" y="326" fill="#1f2328" font-family="-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,&quot;Noto Sans&quot;,Helvetica,Arial,sans-serif" font-size="12" font-weight="600">Assigned seat</text>
+      <text x="208" y="350" fill="#59636e" font-family="-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,&quot;Noto Sans&quot;,Helvetica,Arial,sans-serif" font-size="12">Check policy and owner</text>
+    </g>
+        <text x="40" y="416" fill="#59636e" font-family="-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,&quot;Noto Sans&quot;,Helvetica,Arial,sans-serif" font-size="12">Assignment does not grant repository access.</text>
+        <line x1="40" y1="444" x2="664" y2="444" stroke="#d1d9e0" stroke-width="1"/>
+        <text x="40" y="472" fill="#59636e" font-family="-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,&quot;Noto Sans&quot;,Helvetica,Arial,sans-serif" font-size="9">Box: topic or action    ·    Arrow: relationship</text>
+        <text x="40" y="488" fill="#59636e" font-family="-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,&quot;Noto Sans&quot;,Helvetica,Arial,sans-serif" font-size="9">Green box: lesson focus, not approval or a safety rating</text>
+      </svg>
+    </div>
+  </div>
+</body>
+</html>

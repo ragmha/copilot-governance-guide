@@ -1,0 +1,83 @@
+---
+import diagrams from '../diagrams.json';
+
+interface Props {
+  name: string;
+}
+
+const { name } = Astro.props;
+if (!(name in diagrams)) throw new Error(`Unknown diagram: ${name}`);
+const { title, description } = diagrams[name as keyof typeof diagrams];
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const src = `${base}diagrams/${name}.light.html`;
+const headingId = `${name}-heading`;
+---
+
+<figure class="diagram-embed" aria-labelledby={headingId}>
+  <h3 id={headingId}>{title}</h3>
+  <div class="diagram-tools">
+    <a data-diagram-link={name} href={src} target="_blank" rel="noopener noreferrer">Open full-size</a>
+  </div>
+  <p class="diagram-hint">Scroll horizontally with touch or arrow keys to explore the full-size figure.</p>
+  <div id={`${name}-viewport`} class="diagram-scroll" tabindex="0" role="region" aria-label={`${title}. Scroll horizontally to explore.`}>
+    <img class="diagram-light" src={`${base}diagrams/${name}.light.svg`} alt={description} width="704" data-diagram={name} />
+    <img class="diagram-dark" src={`${base}diagrams/${name}.dark.svg`} alt={description} width="704" data-diagram={name} />
+  </div>
+  <figcaption>
+    <p>{description}</p>
+    <div class="diagram-links">
+      <a data-diagram-link={name} href={src} download>Download editable HTML</a>
+    </div>
+  </figcaption>
+</figure>
+
+<style>
+  .diagram-embed {
+    min-width: 0;
+    margin: 1rem 0 2rem;
+  }
+
+  h3 {
+    color: var(--ink);
+    font: 650 19px/1.4 var(--font-sans);
+    margin: 0 0 16px;
+  }
+
+  .diagram-tools { display: flex; align-items: center; gap: 20px; margin-bottom: 12px; font-size: 13px; }
+  .diagram-hint { display: none; }
+  @media (max-width: 760px) {
+    .diagram-hint { display: block; color: var(--muted); font-size: 12px; margin: 0 0 12px; }
+  }
+
+  .diagram-scroll {
+    overflow-x: auto;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    background: var(--bg);
+  }
+
+  img {
+    display: block;
+    width: 100%;
+    min-width: 704px;
+    height: auto;
+  }
+
+  @media print {
+    .diagram-scroll { overflow: visible; }
+    img { min-width: 0; }
+  }
+
+  figcaption {
+    margin-top: 12px;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  figcaption p { margin: 0 0 8px; }
+  .diagram-links { display: flex; flex-wrap: wrap; gap: 8px 22px; }
+  .diagram-dark { display: none; }
+  :global([data-theme=dark]) .diagram-light { display: none; }
+  :global([data-theme=dark]) .diagram-dark { display: block; }
+</style>

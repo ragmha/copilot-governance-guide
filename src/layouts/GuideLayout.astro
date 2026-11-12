@@ -1,0 +1,285 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import Diagram from '../components/Diagram.astro';
+import PartQuiz from '../components/PartQuiz.astro';
+import { chapters, coursePath, parts } from '../course';
+import '../styles/global.css';
+
+interface Props {
+  page: CollectionEntry<'guide'>;
+  headings: { depth: number; slug: string; text: string }[];
+}
+const { page, headings } = Astro.props;
+const pages = await getCollection('guide');
+const entryFor = (id: string) => {
+  const entry = pages.find(entry => entry.id === id);
+  if (!entry) throw new Error(`Missing course content: ${id}`);
+  return entry;
+};
+const sequence = ['start', ...chapters.map(chapter => chapter.id)];
+const current = sequence.indexOf(page.id);
+const previous = current > 0 ? entryFor(sequence[current - 1]) : undefined;
+const next = current >= 0 && current < sequence.length - 1 ? entryFor(sequence[current + 1]) : undefined;
+const chapter = chapters.find(chapter => chapter.id === page.id);
+const titleFor = (entry: CollectionEntry<'guide'>) => {
+  const chapter = chapters.find(chapter => chapter.id === entry.id);
+  return chapter ? `${chapter.number} ${entry.data.title}` : entry.id === 'start' ? 'Course index' : entry.data.title;
+};
+const outlineParts = parts.filter((_, index) => page.id === 'start' || (chapter?.kind === 'overview' && chapter.part === index + 1));
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const href = (id: string) => `${base}/${coursePath(id)}${id === 'start' ? '' : '/'}`;
+const stale = Date.now() - new Date(`${page.data.verified}T00:00:00Z`).getTime() > 30 * 86400000;
+const titleWords = page.data.title.split(' ');
+const titleEmphasis = page.id === 'start' ? titleWords.splice(-3).join(' ') : '';
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={page.data.description} />
+    <meta name="color-scheme" content="light dark" />
+    <title>{titleFor(page)}{chapter ? ` · ${chapter.partTitle}` : ''} · Copilot Governance Guide</title>
+    <script is:inline>
+      (() => {
+        let preference = 'system';
+        try { preference = localStorage.getItem('theme') || 'system'; } catch {}
+        const dark = preference === 'dark' || (preference === 'system' && matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+        document.documentElement.dataset.preference = preference;
+      })();
+    </script>
+  </head>
+  <body data-current-part={chapter?.part || 0}>
+    <a class="skip" href="#content">Skip to content</a>
+    <noscript><div class="progress-notice">JavaScript is required to score quizzes and enforce course progression. Navigation is not locked without it.</div></noscript>
+    <header class="topbar">
+      <a class="brand" href={`${base}/`} aria-label="Copilot Governance Guide home">
+        <svg class="brand-mark" aria-hidden="true" viewBox="0 0 16 16" width="30" height="30"><path d="M6.766 11.328c-2.063-.25-3.516-1.734-3.516-3.656 0-.781.281-1.625.75-2.188-.203-.515-.172-1.609.063-2.062.625-.078 1.468.25 1.968.703.594-.187 1.219-.281 1.985-.281.765 0 1.39.094 1.953.265.484-.437 1.344-.765 1.969-.687.218.422.25 1.515.046 2.047.5.593.766 1.39.766 2.203 0 1.922-1.453 3.375-3.547 3.64.531.344.89 1.094.89 1.954v1.625c0 .468.391.734.86.547C13.781 14.359 16 11.53 16 8.03 16 3.61 12.406 0 7.984 0 3.563 0 0 3.61 0 8.031a7.88 7.88 0 0 0 5.172 7.422c.422.156.828-.125.828-.547v-1.25c-.219.094-.5.156-.75.156-1.031 0-1.64-.562-2.078-1.609-.172-.422-.36-.672-.719-.719-.187-.015-.25-.093-.25-.187 0-.188.313-.328.625-.328.453 0 .844.281 1.25.86.313.452.64.655 1.031.655s.641-.14 1-.5c.266-.265.47-.5.657-.656"/></svg>
+        Learning Guide
+      </a>
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><span>Enterprise enablement</span><span aria-hidden="true">/</span><span>{chapter ? `Part ${chapter.part}: ${chapter.partTitle}` : page.data.section}</span></nav>
+      <label class="theme-label"><span aria-hidden="true">◐</span><span class="sr-only">Color theme</span><select id="theme" aria-label="Color theme"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></label>
+    </header>
+    <div class="shell">
+      <aside class="sidebar">
+        <div class="edition">COURSE CONTENTS<span>Copilot governance</span></div>
+        <details class="chapter-nav" open>
+          <summary>Explore the course <span aria-hidden="true">⌄</span></summary>
+          <nav aria-label="Guide chapters">
+            <a class="course-home" href={href('start')} aria-current={page.id === 'start' ? 'page' : undefined}>Course index</a>
+            {parts.map((part, index) => (
+              <section class="course-part">
+                <h2><span class="chapter-number">Part {index + 1}</span> {part.title}</h2>
+                <div class="chapter-pages">{part.pages.map(id => {
+                  const entry = entryFor(id);
+                  return <a href={href(id)} aria-current={id === page.id ? 'page' : undefined}>{titleFor(entry)}</a>;
+                })}</div>
+              </section>
+            ))}
+            <div class="course-appendix"><span>Appendix</span><a href={href('sources')} aria-current={page.id === 'sources' ? 'page' : undefined}>Sources & release status</a></div>
+          </nav>
+        </details>
+        <div class="sidebar-note">Learn the model.<br />Apply it with accountable owners.</div>
+      </aside>
+      <main id="content">
+        <div id="progress-notice" class="progress-notice" role="status" aria-live="polite" tabindex="-1" hidden>
+          <span></span>
+          <button type="button" id="reset-progress" hidden>Reset invalid progress</button>
+        </div>
+        <div class="article-grid">
+          <article>
+            <div class="eyebrow">{chapter ? `Part ${chapter.part}: ${chapter.partTitle}` : page.data.section}<span class="eyebrow-line"></span></div>
+            <h1>{chapter && <span class="lesson-number">{chapter.number} </span>}{titleWords.join(' ')}{titleEmphasis && <> <span class="title-emphasis">{titleEmphasis}</span></>}</h1>
+            <p class="lede">{page.data.description}</p>
+            <div class="page-meta"><span>ENTERPRISE GUIDE</span><span>Reviewed {page.data.verified}</span>{stale && <strong class="status caution">Review overdue · verify against sources</strong>}</div>
+            {page.data.diagram && <section class="diagram-section" aria-label="Visual explanation">
+              <div class="figure-label">VISUAL LESSON</div>
+              <Diagram name={page.data.diagram} />
+            </section>}
+            <div class="prose"><slot /></div>
+            {outlineParts.length > 0 && <div class="course-outline prose">
+              {outlineParts.map(part => {
+                const partNumber = parts.indexOf(part) + 1;
+                return <section>
+                  <h2 id={`part-${partNumber}`}>{page.id === 'start' ? `Part ${partNumber}: ${part.title}` : 'Chapters in this part'}</h2>
+                  <ol>{part.pages.filter(id => id !== page.id).map(id => {
+                    const entry = entryFor(id);
+                    return <li><a href={href(id)}>{titleFor(entry)}</a><p>{entry.data.description}</p></li>;
+                  })}</ol>
+                </section>;
+              })}
+            </div>}
+            {page.data.scenarioDiagram && <section class="diagram-section" aria-label="Scenario visual">
+              <div class="figure-label">APPLY THE CONCEPT</div>
+              <Diagram name={page.data.scenarioDiagram} />
+            </section>}
+            {page.data.checks && <section class="self-check prose" aria-labelledby="check-your-understanding">
+              <h2 id="check-your-understanding">Check your understanding</h2>
+              <p>Try each question before opening the answer.</p>
+              {page.data.checks.map(check => <details><summary>{check.question}</summary><p>{check.answer}</p></details>)}
+            </section>}
+            {chapter?.kind === 'summary' && <PartQuiz part={chapter.part} />}
+            <section class="source-note" aria-labelledby="page-sources">
+              <h2 id="page-sources">Sources & freshness</h2>
+              <p>Source review: <time datetime={page.data.verified}>{page.data.verified}</time>. This independent guide is not a contract or a substitute for your organization's policies. Source links are authoritative; recommendations are labeled as guide advice.</p>
+              <ul>{page.data.sources.map((source) => <li><a href={source} target="_blank" rel="noopener noreferrer">{new URL(source).hostname} / {new URL(source).pathname.split('/').filter(Boolean).at(-1)?.replaceAll('-', ' ')} ↗</a></li>)}</ul>
+            </section>
+            <nav class="pagination" aria-label="Reading sequence">{previous ? <a rel="prev" href={href(previous.id)}><small>← PREVIOUS</small>{titleFor(previous)}</a> : <span></span>}{next ? <a class="next" rel="next" href={href(next.id)}><small>NEXT CHAPTER →</small>{titleFor(next)}</a> : <a class="next" href={href('start')}><small>{page.id === 'sources' ? 'RETURN TO COURSE →' : 'COURSE COMPLETE →'}</small>Course index</a>}</nav>
+            <footer class="article-footer">Copilot Governance Guide <span>Independent guidance. Official sources, clearly linked.</span></footer>
+          </article>
+          <aside class="toc" aria-label="On this page"><div>ON THIS PAGE</div>{headings.filter((h) => h.depth === 2).map((heading) => <a href={`#${heading.slug}`}>{heading.text}</a>)}{outlineParts.map(part => <a href={`#part-${parts.indexOf(part) + 1}`}>{page.id === 'start' ? part.title : 'Chapters in this part'}</a>)}{page.data.checks && <a href="#check-your-understanding">Check your understanding</a>}{chapter?.kind === 'summary' && <a href="#part-quiz-title">Part quiz</a>}<a href="#page-sources">Sources & freshness</a></aside>
+        </div>
+      </main>
+    </div>
+    <script>
+      import { chapters } from '../course';
+
+      const progressKey = 'copilot-governance-guide:quiz-progress:v2';
+      const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+      const currentPart = Number(document.body.dataset.currentPart);
+      const notice = document.querySelector<HTMLElement>('#progress-notice')!;
+      const noticeText = notice.querySelector('span')!;
+      const resetProgress = document.querySelector<HTMLButtonElement>('#reset-progress')!;
+      const summaryPath = (part: number) => `${base}/${chapters.find(chapter => chapter.part === part && chapter.kind === 'summary')!.path}/`;
+      let passed: number[] = [];
+      let storageError = '';
+      let invalidProgress = false;
+      let previousVersion = false;
+      function showNotice(message: string) {
+        noticeText.textContent = message;
+        notice.hidden = false;
+      }
+      try {
+        const saved = localStorage.getItem(progressKey);
+        if (saved === null && localStorage.getItem('copilot-governance-guide:quiz-progress:v1') !== null) previousVersion = true;
+        if (saved !== null) {
+          let parsed: unknown;
+          try { parsed = JSON.parse(saved); } catch { invalidProgress = true; }
+          if (!invalidProgress) {
+            const record = parsed as { version?: unknown; passed?: unknown } | null;
+            if (!record || record.version !== 2 || !Array.isArray(record.passed) ||
+                record.passed.length > 6 || !record.passed.every((part, index) => part === index + 1)) {
+              invalidProgress = true;
+            } else {
+              passed = record.passed;
+            }
+          }
+        }
+      } catch {
+        storageError = 'Browser storage is unavailable. Progress cannot be saved; enable storage to unlock later parts.';
+      }
+      if (invalidProgress) {
+        showNotice('Saved quiz progress is invalid and has not been accepted. Reset it to start again.');
+        resetProgress.hidden = false;
+      } else if (storageError) showNotice(storageError);
+      else if (previousVersion) showNotice('The quizzes have changed. Previous quiz progress does not carry over; start again with Part 1.');
+      resetProgress.addEventListener('click', () => {
+        try {
+          localStorage.removeItem(progressKey);
+          invalidProgress = false;
+          resetProgress.hidden = true;
+          showNotice('Invalid progress was reset. Pass the first quiz to continue.');
+          updateLinks();
+        } catch {
+          showNotice('Could not reset saved progress. Enable browser storage and try again.');
+        }
+      });
+      if (currentPart > passed.length + 1) {
+        location.replace(`${summaryPath(passed.length + 1)}?locked=1#part-quiz-title`);
+      } else if (new URLSearchParams(location.search).has('locked') && !invalidProgress && !storageError) {
+        showNotice(`Pass the Part ${passed.length + 1} quiz with 100% before opening the next part.`);
+      }
+      function updateLinks() {
+        document.querySelectorAll<HTMLAnchorElement>('a[href]').forEach(link => {
+          const target = new URL(link.href, location.href);
+          const chapter = chapters.find(entry => `${base}/${entry.path}/` === target.pathname);
+          const locked = Boolean(chapter && chapter.part > passed.length + 1);
+          if (locked) {
+            link.setAttribute('aria-disabled', 'true');
+            link.dataset.lockedPart = String(chapter!.part);
+            if (!link.querySelector('.lock-label')) {
+              const label = document.createElement('span');
+              label.className = 'lock-label';
+              label.textContent = ' (locked)';
+              link.append(label);
+            }
+          } else {
+            link.removeAttribute('aria-disabled');
+            delete link.dataset.lockedPart;
+            link.querySelector('.lock-label')?.remove();
+          }
+        });
+      }
+      updateLinks();
+      document.addEventListener('click', event => {
+        const link = (event.target as Element).closest<HTMLAnchorElement>('a[data-locked-part]');
+        if (!link) return;
+        event.preventDefault();
+        showNotice(`Part ${link.dataset.lockedPart} is locked. Pass the Part ${passed.length + 1} quiz with 100% to continue.`);
+        notice.focus();
+      });
+      document.addEventListener('quiz-scored', event => {
+        const { part, score, total } = (event as CustomEvent<{ part: number; score: number; total: number }>).detail;
+        const form = event.target as HTMLFormElement;
+        const status = form.querySelector<HTMLElement>('.quiz-status')!;
+        if (score !== total) {
+          status.textContent = `Score: ${score} of ${total}. Review the answers and retry for 100%.`;
+          return;
+        }
+        if (storageError || invalidProgress) {
+          status.textContent = `Score: ${score} of ${total}. Progress was not saved. ${storageError || 'Reset invalid progress before continuing.'}`;
+          return;
+        }
+        const updated = part === passed.length + 1 ? [...passed, part] : passed;
+        try {
+          localStorage.setItem(progressKey, JSON.stringify({ version: 2, passed: updated }));
+          passed = updated;
+          status.textContent = part === 6
+            ? `Score: ${score} of ${total}. Course complete. Progress is saved in this browser.`
+            : `Score: ${score} of ${total}. Part ${part + 1} is unlocked. Progress is saved in this browser.`;
+          updateLinks();
+        } catch {
+          storageError = 'Browser storage is unavailable. Progress cannot be saved; enable storage to unlock later parts.';
+          status.textContent = `Score: ${score} of ${total}. ${storageError}`;
+          showNotice(storageError);
+        }
+      });
+      const select = document.querySelector<HTMLSelectElement>('#theme')!;
+      const media = matchMedia('(prefers-color-scheme: dark)');
+      const mobile = matchMedia('(max-width: 760px)');
+      const navigation = document.querySelector<HTMLDetailsElement>('.chapter-nav')!;
+      function syncNavigation() {
+        navigation.open = !mobile.matches;
+        const sidebar = navigation.closest<HTMLElement>('.sidebar')!;
+        if (!mobile.matches && sidebar.scrollHeight > sidebar.clientHeight) {
+          const active = navigation.querySelector<HTMLAnchorElement>('[aria-current="page"]')!.getBoundingClientRect();
+          const bounds = sidebar.getBoundingClientRect();
+          if (active.top < bounds.top || active.bottom > bounds.bottom) {
+            sidebar.scrollTop += active.top - bounds.top - (sidebar.clientHeight - active.height) / 2;
+          }
+        }
+      }
+      syncNavigation();
+      mobile.addEventListener('change', syncNavigation);
+      select.value = document.documentElement.dataset.preference || 'system';
+      function applyTheme() {
+        const preference = select.value;
+        const theme = preference === 'system' ? (media.matches ? 'dark' : 'light') : preference;
+        document.documentElement.dataset.theme = theme;
+        document.documentElement.dataset.preference = preference;
+        document.querySelectorAll<HTMLAnchorElement>('[data-diagram-link]').forEach((link) => {
+          const url = new URL(link.href);
+          url.pathname = url.pathname.replace(/\.(light|dark)\.html$/, `.${theme}.html`);
+          link.href = url.href;
+        });
+      }
+      select.addEventListener('change', () => {
+        try { localStorage.setItem('theme', select.value); } catch {}
+        applyTheme();
+      });
+      media.addEventListener('change', applyTheme);
+      applyTheme();
+    </script>
+  </body>
+</html>
